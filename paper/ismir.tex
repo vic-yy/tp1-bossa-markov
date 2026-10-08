@@ -1,0 +1,44 @@
+% Compile com o template oficial ISMIR (ismir.sty); substitua o preambulo abaixo se necessario.
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{ismir,amsmath,graphicx,cite}
+\title{Bossa Nova no Estilo de Jobim com Cadeias de Markov de Harmonia e Contorno}
+\oneauthor{Victor Yuji Yano}{victoryujiyano@gmail.com}
+\begin{document}
+\maketitle
+\begin{abstract}
+Geramos peças de bossa nova no estilo de Tom Jobim com duas cadeias de Markov de ordem $n$ aprendidas do MPB Corpus: uma sobre acordes e outra sobre o contorno melódico. Analisamos o compromisso entre ordem e memorização.
+\end{abstract}
+
+\section{Introdução}
+Cadeias de Markov são um método clássico de composição algorítmica~\cite{pachet2002}. Usamos exclusivamente esse método, com a restrição estilística de \emph{bossa nova no estilo de Tom Jobim}.
+
+\section{Trabalhos relacionados}
+Pachet~\cite{pachet2002} propõe Markov de ordem variável para improvisação interativa; Conklin~\cite{conklin2003} revisa modelos estatísticos para música. O MPB Corpus~\cite{mpb} fornece anotações simbólicas de 500 canções brasileiras.
+
+\section{Método}
+\textbf{Corpus.} 50 composições de Jobim do MPB Corpus (CC BY 4.0). O corpus não contém MIDI nem alturas absolutas: usamos \texttt{harmony.csv} (raiz, tipo de acorde e compasso de entrada; 49 trechos em modo maior e 21 em menor) e as letras de contorno de \texttt{contour\_rhythm.csv} ($u$ repete; $P/p$ grau conjunto acima/abaixo; $A/a$ arpejo de 3--5 semitons; $S/s$ salto $\ge 6$).
+
+\textbf{Harmonia.} Estado $(\text{raiz}-\text{tônica},\text{símbolo},\text{duração})$, com duração em $\{0{,}5;1;2;4\}$ compassos; saída em Dó maior ou Lá menor.
+
+\textbf{Melodia.} Cadeia sobre as letras de contorno, com um separador de frases. Cada frase começa num tom do acorde vigente e as letras são decodificadas em notas (graus conjuntos na escala; arpejos e saltos preferindo tons do acorde). O ritmo da melodia não é decodificável a partir do corpus; usamos um ciclo sincopado fixo (decisão nossa).
+
+\textbf{Acompanhamento.} Regras: baixo (raiz/quinta) e violão na clave de bossa 3-2.
+
+As probabilidades são aprendidas por contagem, com \emph{backoff} para ordens menores. Hiperparâmetros: modo, ordem da harmonia, ordem do contorno e semente. As peças têm 32 compassos a 132~bpm e são exportadas em MIDI.
+
+\section{Resultados}
+Geramos 5 peças (\texttt{music/jobim\_*}) variando modo, ordens e sementes. Medimos a fração da sequência gerada que é cópia literal de um trecho do corpus (15 sementes por ordem; Fig.~\ref{fig:order}). Na harmonia, a cópia sobe de 0,18 ($n=1$) para 0,53 ($n=2$), 0,67 ($n=3$) e 0,81 ($n=6$); no contorno, de 0,12 para 0,14 ($n=3$) e 0,39 ($n=6$). O corpus de harmonia é pequeno (1\,837 acordes em maior) e o estado inclui a duração, então já $n=2$ reproduz progressões longas. \emph{[Completar com impressões de audição.]}
+
+\begin{figure}[t]\centering
+\includegraphics[width=.7\columnwidth]{order_vs_copy.pdf}
+\caption{Fração copiada do corpus vs.\ ordem (média $\pm$ desvio).}\label{fig:order}
+\end{figure}
+
+\section{Discussão e trabalhos futuros}
+Limitações: a melodia é pobre ritmicamente; melodia e harmonia são cadeias independentes, ligadas só na decodificação; o acompanhamento é baseado em regras; a síntese é simples. Futuro: obter alturas e ritmos de partituras de Jobim, condicionar a melodia ao acorde e avaliar com ouvintes.
+
+\bibliography{refs}
+\end{document}
