@@ -1,10 +1,10 @@
-"""Escrita de MIDI e sintese simples de WAV a partir de eventos (trilha, pitch, inicio, dur, vel); tempos em semínimas."""
+"""Escreve o MIDI e faz uma síntese simples de WAV a partir dos eventos (trilha, pitch, início, duração, velocity); tempos em semínimas."""
 import numpy as np
 import pretty_midi
 from scipy.io import wavfile
 
-PROGRAMS = {"melody": 73, "comp": 24, "bass": 32}  # flauta, violao nylon, baixo acustico
-# harmonicos e decaimento (1/s) por trilha, para a sintese
+PROGRAMS = {"melody": 73, "comp": 24, "bass": 32}  # flauta, violão nylon, baixo acústico
+# harmônicos e decaimento (1/s) de cada trilha
 TIMBRE = {"melody": ([(1, 1), (2, .3), (3, .1)], 0.8), "comp": ([(1, 1), (2, .6), (3, .4), (4, .2)], 4.0),
           "bass": ([(1, 1), (2, .4)], 2.0)}
 

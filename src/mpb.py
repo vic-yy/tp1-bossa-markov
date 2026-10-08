@@ -1,4 +1,4 @@
-"""Leitura do MPB Corpus (CC BY 4.0, github.com/ProjetoMPB/mpb-corpus) e decodificacao em notas.
+"""Leitura do MPB Corpus (CC BY 4.0, github.com/ProjetoMPB/mpb-corpus) e decodificação em notas.
 
 Harmonia: estado = (raiz relativa a tonica, simbolo do acorde, duracao em compassos).
 Melodia: letras de contorno (u=repete, P/p=grau conjunto acima/abaixo, A/a=arpejo 3-5 st, S/s=salto >=6 st).
@@ -8,8 +8,8 @@ from collections import OrderedDict
 
 DATA = os.path.join(os.path.dirname(__file__), "..", "data", "mpb_corpus", "dataset_by_corpus")
 SCALES = {"major": [0, 2, 4, 5, 7, 9, 11], "minor": [0, 2, 3, 5, 7, 8, 10]}
-TONIC = {"major": 0, "minor": 9}  # saida em Do maior / La menor
-DURS = [0.5, 1.0, 2.0, 4.0]       # duracoes de acorde (compassos)
+TONIC = {"major": 0, "minor": 9}  # saída em Dó maior / Lá menor
+DURS = [0.5, 1.0, 2.0, 4.0]       # durações de acorde (em compassos)
 
 
 def _rows(composer, table):
@@ -18,7 +18,7 @@ def _rows(composer, table):
 
 
 def load_harmony(composers=("JOBIM",), mode="major"):
-    """Lista de sequencias de acordes (trechos de modo constante) normalizadas para tonica 0."""
+    """Sequências de acordes (trechos de modo constante), com a tônica normalizada para 0."""
     out = []
     for c in composers:
         comps = OrderedDict()
@@ -42,7 +42,7 @@ def load_harmony(composers=("JOBIM",), mode="major"):
 
 
 def load_contour(composers=("JOBIM",)):
-    """Sequencias de letras de contorno; '|' separa segmentos (frases)."""
+    """Letras de contorno por composição; '|' separa os segmentos (frases)."""
     out = []
     for c in composers:
         comps = OrderedDict()
@@ -60,7 +60,7 @@ _HALF, _DIM = set("Øø"), set("°o")
 
 
 def chord_tones(sym):
-    """Intervalos (semitons a partir da raiz): [0, 3a, 5a, 7a/6a (se houver), extensoes...]."""
+    """Intervalos (semitons a partir da raiz): [0, 3a, 5a, 7a/6a (se houver), extensões...]."""
     s = sym.lstrip("*")
     third, fifth, seventh, dim = 4, 7, None, False
     if s[:1] == "m":
@@ -89,8 +89,8 @@ def chord_tones(sym):
 
 
 def decode_melody(letters, chord_at, mode, total_beats, durs=(1.5, .5, 1, 1, 1.5, .5, 2)):
-    """Converte letras de contorno em notas (pitch, inicio, dur) sobre a harmonia.
-    chord_at(t) -> classes de altura do acorde em t. Cada segmento comeca em um tom do acorde."""
+    """Converte letras de contorno em notas (pitch, início, dur) em cima da harmonia.
+    chord_at(t) -> classes de altura do acorde em t. Todo segmento começa em um tom do acorde."""
     scale = {(TONIC[mode] + d) % 12 for d in SCALES[mode]}
     notes, t, p, k, new = [], 0.0, 67, 0, True
 
@@ -120,7 +120,7 @@ def decode_melody(letters, chord_at, mode, total_beats, durs=(1.5, .5, 1, 1, 1.5
         if t >= total_beats:
             break
         if ch == "|":
-            if notes:  # alonga a ultima nota e recomeca no proximo compasso
+            if notes:  # alonga a última nota e recomeça no próximo compasso
                 pp, tt, dd = notes[-1]
                 notes[-1] = (pp, tt, dd + 0.5)
                 t = ((t + 0.5) // 4 + 1) * 4

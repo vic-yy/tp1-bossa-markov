@@ -1,4 +1,4 @@
-"""Uso: python src/main.py  -> gera musicas em music/ e figura/estatisticas em results/."""
+"""Uso: python src/main.py  -> gera as músicas em music/ e a figura em results/."""
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import numpy as np
@@ -16,7 +16,7 @@ BPM, BARS, COMPOSERS = 132, 32, ("JOBIM",)
 
 
 def harmony_to_chords(states, mode):
-    """states -> lista (inicio, dur em tempos, raiz_pc, intervalos) ate BARS compassos."""
+    """states -> lista (início, duração em tempos, raiz_pc, intervalos), até BARS compassos."""
     out, t = [], 0.0
     for rel, sym, dur in states:
         if t >= BARS * 4:
@@ -29,7 +29,7 @@ def harmony_to_chords(states, mode):
 
 def accompaniment(chords):
     ev = []
-    clave = [[0, 1.5, 3], [1, 2.5]]  # clave de bossa 3-2 alternando compassos
+    clave = [[0, 1.5, 3], [1, 2.5]]  # clave 3-2, alternando os compassos
     for t0, d, root, iv in chords:
         third, seventh = iv[1], (iv[3] if len(iv) > 3 else iv[2])
         top = iv[4] if len(iv) > 4 else iv[2]
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     cont = load_contour(COMPOSERS)
     print({m: (len(v), sum(map(len, v))) for m, v in data.items()}, "| contorno:", len(cont), "composicoes")
 
-    # 1) musicas entregues: (modo, ordem harmonia, ordem contorno, semente)
+    # 1) músicas entregues: (modo, ordem da harmonia, ordem do contorno, semente)
     for mode, ho, mo, seed in [("major", 2, 3, 1), ("major", 2, 3, 2), ("major", 3, 4, 3),
                                ("minor", 2, 3, 4), ("minor", 3, 3, 5)]:
         ev, st = make_piece(mode, ho, mo, seed, data[mode], cont)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         to_wav(ev, os.path.join(MUSIC, name + ".wav"), BPM)
         print(name, "|", " ".join(f"{s}" for _, s, _ in st[:6]), "...")
 
-    # 2) experimento: ordem x memorizacao (fracao da sequencia gerada copiada literalmente do corpus)
+    # 2) ordem x memorização: fração da sequência gerada que é cópia literal do corpus
     orders, N = [1, 2, 3, 4, 5, 6], 15
     res = {"Harmonia (acordes)": [], "Melodia (contorno)": []}
     for o in orders:

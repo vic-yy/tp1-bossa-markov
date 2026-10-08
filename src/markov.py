@@ -1,4 +1,4 @@
-"""Cadeia de Markov de ordem n generica (estados = objetos hashable), com backoff."""
+"""Cadeia de Markov de ordem n genérica (estados = qualquer objeto hashable), com backoff."""
 import random
 from collections import defaultdict, Counter
 
@@ -9,7 +9,7 @@ class MarkovChain:
         self.tables = {}  # k -> {contexto: Counter(proximo)}
 
     def fit(self, sequences):
-        for k in range(1, self.order + 1):  # ordens 1..n para permitir backoff
+        for k in range(1, self.order + 1):  # tabelas de 1..n, pro backoff
             t = defaultdict(Counter)
             for s in sequences:
                 for i in range(len(s) - k):
@@ -34,7 +34,7 @@ class MarkovChain:
 
 
 def longest_copy(seq, corpus):
-    """Maior trecho contiguo de seq que aparece literalmente em alguma sequencia do corpus."""
+    """Maior trecho contíguo de seq que aparece igualzinho em alguma sequência do corpus."""
     best = 0
     for m in corpus:
         for i in range(len(seq)):
