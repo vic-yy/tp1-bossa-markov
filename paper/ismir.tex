@@ -3,15 +3,12 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[brazilian]{babel}
-\usepackage{ismir} % sem a opção "submission": a entrega não é anônima
 \usepackage{amsmath,cite,url}
 \usepackage{graphicx}
 
 \title{Bossa Nova no Estilo de Jobim com Cadeias de Markov de Harmonia e Contorno}
 
-\oneauthor
-  {Victor Yuji Yano}
-  {\texttt{victoryujiyano@gmail.com}}
+\author{Victor Yuji Yano 
 
 \def\authorname{V. Y. Yano}
 
@@ -56,7 +53,7 @@ Medimos a fração da sequência gerada que é cópia literal de um trecho do co
 
 \textbf{Trade-off da ordem.} Ordens baixas geram material mais genérico e menos idiomático; ordens altas são mais fiéis ao corpus, mas passam a memorizar trechos inteiros. O corpus de harmonia é pequeno (1\,837 acordes em maior) e o estado inclui a duração, então já com $n=2$ mais da metade da sequência é cópia. Por isso escolhemos $n=2$--$3$ na harmonia. O alfabeto do contorno tem poucos símbolos, e é preciso $n=3$--$4$ para capturar motivos sem copiar (14--19\% de cópia).
 
-\textbf{Observações.} Cada peça tem de 34 a 46 acordes (14 a 19 tipos distintos) e de 84 a 90 notas de melodia, em extensões de 12 a 19 semitons. Entre 49\% e 77\% das notas da melodia pertencem ao acorde vigente, o que mantém a melodia coerente com a harmonia, mas deixa o restante a cargo de passagens por grau conjunto. As progressões incluem ciclos típicos de Jobim, como \emph{m7} seguido de dominante \emph{7(b9)} ou \emph{7.13}. % TODO: acrescente aqui suas impressões de audição (1-2 frases).
+\textbf{Observações.} Ao ouvir as peças, o resultado soa como bossa nova, graças ao acompanhamento e às progressões harmônicas, mas sem uma melodia definida: a linha melódica lembra mais uma sucessão de notas que acompanha os acordes do que um tema reconhecível.
 
 \section{Discussão e trabalhos futuros}
 Limitações: a melodia é pobre ritmicamente; melodia e harmonia são cadeias independentes, ligadas só na decodificação; o acompanhamento é baseado em regras; a síntese é simples. Futuro: obter alturas e ritmos de partituras de Jobim, condicionar a melodia ao acorde e avaliar com ouvintes.
